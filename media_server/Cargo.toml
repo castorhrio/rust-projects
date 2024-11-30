@@ -1,0 +1,11 @@
+[package]
+name = "media_server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "*", features = ["json"] }
+tokio = { version = "*", features = ["full"] }
+serde = { version = "*", features = ["derive"] }
+actix-web = "4.9.0"
+actix-cors = "0.7.0"
