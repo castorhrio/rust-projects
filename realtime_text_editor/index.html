@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RealTime Text Editor</title>
+  </head>
+  <body>
+    <textarea id="editor" rows="20" cols="50"></textarea>
+    <script>
+      const ws = new WebSocket("ws://localhost:8080/ws");
+      const editor = document.getElementById("editor");
+      ws.onmessage = (event) => {
+        let data = JSON.parse(event.data);
+        editor.value = data.content;
+        editor.setSelectionRange(data.cursor_position, data.cursor_position);
+      };
+
+      editor.addEventListener("input", () => {
+        let message = {
+          content: editor.value,
+          cursor_position: editor.selectionStart,
+        };
+
+        ws.send(JSON.stringify(message));
+      });
+    </script>
+  </body>
+</html>
